@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Local files
+.normignore
+.DS_Store
+.vscode
+cube3D
+
