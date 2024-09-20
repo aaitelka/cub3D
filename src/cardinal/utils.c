@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 11:46:15 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:30:50 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 bool	is_north_texture(const char *line)
 {

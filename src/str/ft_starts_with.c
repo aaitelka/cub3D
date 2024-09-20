@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:27:37 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:10 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:30:50 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 bool	ft_starts_with(const char *str, const char *prefix)
 {

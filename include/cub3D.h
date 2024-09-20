@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/18 11:02:33 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:40:16 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define EFINVALID	51
 //* MAP ERRORS
 # define EMHASTAB	60
+# define EMHASNL	61
 
 typedef enum e_directions
 {
@@ -108,7 +109,12 @@ bool			is_floor_color(const char *line);
 int				get_rgb(int r, int g, int b);
 
 //* UTILS
-bool			is_map(const char *line);
+bool			is_map(const char c);
+bool			is_zero(const char c);
+bool			is_space(const char c);
+bool			is_player(const char c);
+bool			valid_char(const char c);
+
 bool			is_color(const char *line);
 bool			is_texture(const char *line);
 bool			is_null(const char *str);

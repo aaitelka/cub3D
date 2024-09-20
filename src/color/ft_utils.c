@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:48:22 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:38:46 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 bool	is_ceiling_color(const char *line)
 {
@@ -24,5 +24,5 @@ bool	is_floor_color(const char *line)
 
 int	get_rgb(int r, int g, int b)
 {
-	return (r << 24 | g << 16 | b << 8);
+	return (r << 16 | g << 8 | b);
 }

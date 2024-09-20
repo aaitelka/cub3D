@@ -6,27 +6,36 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:41:04 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:30:45 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
-void	ft_parse(t_cube3d *cube, char *line)
+void	ft_parse(t_cub3d *cube, char *line)
 {
 	static int		i = 1;
 	char			*str;
 
-	str = ft_strtrim(line, "\t \n");
-	free(line);
-	if (is_null(str))
+	if (i <= 6)
+	{
+		str = ft_strtrim(line, "\t ");
+		free(line);
+	}
+	if (is_null(str) || is_newline(str))
 		return (free(str));
-	if (is_texture(str))
-		ft_add_texture(cube, str);
-	else if (is_color(str))
-		ft_add_color(cube, str);
-	else if (is_map(str))
-		ft_add_map(cube, str);
+	if (is_texture(str) && i++)
+		ft_parse_texture(cube, str);
+	else if (is_color(str) && i++)
+		ft_parse_color(cube, str);
+	else if (is_map(*str) && i > 6)
+	{
+		if (cube->map.longest < (int)ft_strlen(str))
+			cube->map.longest = ft_strlen(str);
+		cube->map.size++;
+		cube->ismap = true;
+		cube->map.content = ft_strdup(line);
+	}
 	else
 	{
 		ft_error(str, "invalid line");

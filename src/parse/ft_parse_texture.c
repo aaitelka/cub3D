@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:34:21 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:32:15 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 static void	check_duplicate_texture(const char *str)
 {
@@ -40,27 +40,27 @@ static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
 	return (image);
 }
 
-void	ft_add_texture(t_cube3d *cube, char *str)
+void	ft_parse_texture(t_cub3d *cube, char *line)
 {
 	char			*texture;
 	mlx_image_t		*image;
 
-	texture = ft_strtrim(str + 2, " ");
+	texture = ft_strtrim(line + 2, " \t\n");
 	image = ft_load_image(cube->mlx, texture);
 	if (image == NULL)
 	{
 		ft_error(texture, "failed to load image");
 		exit(EXIT_FAILURE);
 	}
-	if (is_north_texture(str) && cube->map.textures[NO] == NULL)
+	if (is_north_texture(line) && cube->map.textures[NO] == NULL)
 		cube->map.textures[NO] = image;
-	else if (is_east_texture(str) && cube->map.textures[EA] == NULL)
+	else if (is_east_texture(line) && cube->map.textures[EA] == NULL)
 		cube->map.textures[EA] = image;
-	else if (is_south_texture(str) && cube->map.textures[SO] == NULL)
+	else if (is_south_texture(line) && cube->map.textures[SO] == NULL)
 		cube->map.textures[SO] = image;
-	else if (is_west_texture(str) && cube->map.textures[WE] == NULL)
+	else if (is_west_texture(line) && cube->map.textures[WE] == NULL)
 		cube->map.textures[WE] = image;
 	else
-		(free(texture), check_duplicate_texture(str));
+		(free(texture), check_duplicate_texture(line));
 	free(texture);
 }

@@ -55,5 +55,5 @@ dkms.conf
 .normignore
 .DS_Store
 .vscode
-cube3D
+cub3D
 

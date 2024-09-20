@@ -6,16 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:35:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:20:02 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
-
-bool	is_map(const char *line)
-{
-	return (*line == '1' || *line == ' ' || *line == '\t');
-}
+#include <cub3D.h>
 
 bool	is_color(const char *line)
 {

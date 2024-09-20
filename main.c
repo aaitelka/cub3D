@@ -6,15 +6,26 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:11:41 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:01:52 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
+
+
+
+static void	destroty_game(t_cub3d *cube)
+{
+	if (cube->map.content)
+		free(cube->map.content);
+	if (cube->map._2d)
+		ft_clear(cube->map._2d, cube->map.size);
+	ft_destroy(cube);
+}
 
 static int	start_game(char *map_file)
 {
-	t_cube3d cube3d;
+	t_cub3d cube3d;
 
 	cube3d.mlx = mlx_init(1920, 1080, "cub3D", false);
 	cube3d.map = (t_map){0};
@@ -60,28 +71,33 @@ static int	start_game(char *map_file)
 	// 	return (FAILED);
 	// }
 
-	mlx_new_image(cube3d.mlx, 1920, 1080);
-	int index = 0;
-	int position = 0;
-	while (index < TEXTURES_SIZE)
-	{
-		if (cube3d.map.textures[index] != NULL)
-		{
-			mlx_image_to_window(cube3d.mlx, cube3d.map.textures[index], 0, position);
-			position += 120;
-		} else {
-			printf("texture[%d] is NULL\n", index);
-		}
-		index++;
-	}
-	mlx_loop(cube3d.mlx);
-	index = 0;
-	while (index < TEXTURES_SIZE)
-	{
-		if (cube3d.map.textures[index] != NULL)
-			mlx_delete_image(cube3d.mlx, cube3d.map.textures[index]);
-		index++;
-	}
+
+	// printf("saved map[0]: %s\n", cube3d.map._2d[1]);
+	// ft_validate_map(&cube3d.map);
+
+	// mlx_new_image(cube3d.mlx, 1920, 1080);
+	// int index = 0;
+	// int position = 0;
+	// while (index < TEXTURES_SIZE)
+	// {
+	// 	if (cube3d.map.textures[index] != NULL)
+	// 	{
+	// 		mlx_image_to_window(cube3d.mlx, cube3d.map.textures[index], 0, position);
+	// 		position += 120;
+	// 	} else {
+	// 		printf("texture[%d] is NULL\n", index);
+	// 	}
+	// 	index++;
+	// }
+	// mlx_loop(cube3d.mlx);
+	// index = 0;
+	// while (index < TEXTURES_SIZE)
+	// {
+	// 	if (cube3d.map.textures[index] != NULL)
+	// 		mlx_delete_image(cube3d.mlx, cube3d.map.textures[index]);
+	// 	index++;
+	// }
+	destroty_game(&cube3d);
 	mlx_terminate(cube3d.mlx);
 	return (SUCCESS);
 }
@@ -89,7 +105,7 @@ static int	start_game(char *map_file)
 void leak(){system("leaks cub3D");}
 int main(int argc, char **argv)
 {
-// 	atexit(leak);
+	// atexit(leak);
 	if (argc == 2 && ft_is_valid_ext(argv[argc - 1], ".cub"))
 		start_game(argv[argc - 1]);
 	else

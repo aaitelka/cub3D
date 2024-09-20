@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:41:20 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 static void	check_duplicate_color(const char *str)
 {
@@ -21,13 +21,13 @@ static void	check_duplicate_color(const char *str)
 	exit(EXIT_FAILURE);
 }
 
-static int	get_color(t_cube3d *cube, char *str)
+static int	get_color(t_cub3d *cube, char *str)
 {
+	char			**colors;
+	int				rgb;
 	int				r;
 	int				g;
 	int				b;
-	int				rgb;
-	char			**colors;
 
 	colors = ft_split(str, ',');
 	if (colors == NULL)
@@ -63,7 +63,7 @@ static void	check_color(char *color)
 		is_valid = false;
 	while (is_valid && color[i])
 	{
-		if (ft_isdigit(color[i]) || (color[i] == 32 || (color[i] == 9)))
+		if (ft_isdigit(color[i]) || (is_space(color[i]) || (color[i] == 9)))
 			;
 		else if (color[i] == ',')
 			comma++;
@@ -78,17 +78,17 @@ static void	check_color(char *color)
 	}
 }
 
-void	ft_add_color(t_cube3d *cube, char *str)
+void	ft_parse_color(t_cub3d *cube, char *line)
 {
 	char			*color;
 
-	color = ft_strtrim(str + 1, " ");
+	color = ft_strtrim(line + 1, " \t\n");
 	check_color(color);
-	if (is_floor_color(str) && cube->map.colors[F] == 0)
+	if (is_floor_color(line) && cube->map.colors[F] == 0)
 		cube->map.colors[F] = get_color(cube, color);
-	else if (is_ceiling_color(str) && cube->map.colors[C] == 0)
+	else if (is_ceiling_color(line) && cube->map.colors[C] == 0)
 		cube->map.colors[C] = get_color(cube, color);
 	else
-		check_duplicate_color(str);
+		check_duplicate_color(line);
 	free(color);
 }

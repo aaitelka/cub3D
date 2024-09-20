@@ -6,11 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 07:01:14 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/17 10:04:31 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/19 07:51:34 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cube3D.h>
+#include <cub3D.h>
 
 void	ft_clear(char **array, int size)
 {
@@ -24,4 +24,9 @@ void	ft_clear(char **array, int size)
 		index++;
 	}
 	free(array);
+}
+
+void	ft_destroy(t_cub3d *cube)
+{
+	printf("destroying cube\n");
 }

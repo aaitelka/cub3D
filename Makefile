@@ -6,7 +6,7 @@
 #    By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/15 09:12:42 by aaitelka          #+#    #+#              #
-#    Updated: 2024/09/17 10:09:25 by aaitelka         ###   ########.fr        #
+#    Updated: 2024/09/20 08:39:09 by aaitelka         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ GREEN := \033[0;32m
 NC := \033[0m
 LIBMLX := ./lib/MLX42
 LIBFT := ./lib/libft
-CC := cc -g
+CC := cc #-g -fsanitize=address
 CFLAGS := #-Wall -Wextra -Werror
-NAME := cube3D
-BONUS := cube3D_bonus
+NAME := cub3D
+BONUS := cub3D_bonus
 
 HEADS := -I ./include -I ./bonus/include -I $(LIBFT) -I $(LIBMLX)/include/MLX42
 LIBS := $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -lglfw -ldl -pthread -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
@@ -31,6 +31,7 @@ SRCS := main.c \
 		src/file/ft_utils.c \
 		src/parse/ft_parse.c \
 		src/parse/ft_parse_map.c \
+		src/parse/ft_map_utils.c \
 		src/parse/ft_parse_color.c \
 		src/parse/ft_parse_texture.c \
 		src/parse/ft_utils.c \
