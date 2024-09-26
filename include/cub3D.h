@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/20 08:40:16 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:50:25 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,29 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <string.h>
+# include <errno.h>
+
+
+# define EMFEMPTY "File is empty"
+
+# define RED "\033[31m"
+# define ORNG "\033[38;5;208m"
+# define RESET "\033[0m"
 
 # define FAILED 	-1
 # define SUCCESS 	0
 # define FAILURE 	1
 
 //* FILE ERRORS
-# define EFEMPTY	50
-# define EFINVALID	51
+# define EFEMPTY	30
+# define EFINVALID	31
+
+//* TEXTURE ERRORS
+# define ETMISSING	40
+
+//* COLOR ERRORS
+# define ECMISSING	50
+
 //* MAP ERRORS
 # define EMHASTAB	60
 # define EMHASNL	61
@@ -51,16 +66,17 @@ typedef enum e_colors
 
 typedef struct s_point
 {
-	int				x;
-	int				y;
+	int				row;
+	int				col;
+	int				err;
 }	t_point;
 
 typedef struct s_map
 {
 	char			*content;
 	char 			**_2d;
+	size_t			longest;
 	int				size;
-	int				longest;
 	int				colors[COLORS_SIZE];
 	mlx_image_t		*textures[TEXTURES_SIZE];
 	t_point			point;
@@ -94,8 +110,8 @@ void			ft_parse_texture(t_cub3d *cube, char *line);
 t_colors		colors_initialized(t_map *map);
 t_directions	textures_initialized(t_map *map);
 
-//* VALIDATE
-void			ft_validate_map(t_map *map);
+//* MAP
+void			square_it(t_map *map);
 
 /** Cardinal	*/
 bool			is_east_texture(const char *line);
@@ -106,25 +122,38 @@ bool			is_south_texture(const char *line);
 /** Colors	*/
 bool			is_ceiling_color(const char *line);
 bool			is_floor_color(const char *line);
-int				get_rgb(int r, int g, int b);
+int				get_rgb(int r, int g, int b, int a);
 
 //* UTILS
+bool			is_valid_color(const int c);
+bool			is_only(const char *line, const char c);
+bool			is_blank(const char *line);
 bool			is_map(const char c);
 bool			is_zero(const char c);
+bool			is_null(const char c);
 bool			is_space(const char c);
 bool			is_player(const char c);
+bool			is_newline(const char c);
 bool			valid_char(const char c);
+bool			is_wall(const char c);
+
+bool			is_east(const char c);
+bool			is_north(const char c);
+bool			is_south(const char c);
+bool			is_west(const char c);
 
 bool			is_color(const char *line);
 bool			is_texture(const char *line);
-bool			is_null(const char *str);
-bool			is_newline(const char *str);
+
+//* ARRAY UTILS
+size_t			ft_array_size(char **array);
+void			ft_clear_array(char **array, int size);
 
 //* CLEAN
-void			ft_clear(char **array, int size);
 void			ft_destroy(t_cub3d *cube);
 
 //* ERROR
+void			set_error(t_point *point, int row, int col, int err);
 void			ft_error(char *where, char *msg);
 
 #endif

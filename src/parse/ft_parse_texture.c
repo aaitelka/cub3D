@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:34:21 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 14:32:15 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:18:50 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	check_duplicate_texture(const char *str)
 		ft_error("SO", "texture already exists");
 	else if (is_west_texture(str))
 		ft_error("WE", "texture already exists");
-	exit(EXIT_FAILURE);
 }
 
 static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
@@ -35,7 +34,7 @@ static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
 		return (NULL);
 	image = mlx_texture_to_image(mlx, texture);
 	if (image == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	mlx_delete_texture(texture);
 	return (image);
 }
@@ -50,7 +49,8 @@ void	ft_parse_texture(t_cub3d *cube, char *line)
 	if (image == NULL)
 	{
 		ft_error(texture, "failed to load image");
-		exit(EXIT_FAILURE);
+		free(texture);
+		return ;
 	}
 	if (is_north_texture(line) && cube->map.textures[NO] == NULL)
 		cube->map.textures[NO] = image;
@@ -61,6 +61,6 @@ void	ft_parse_texture(t_cub3d *cube, char *line)
 	else if (is_west_texture(line) && cube->map.textures[WE] == NULL)
 		cube->map.textures[WE] = image;
 	else
-		(free(texture), check_duplicate_texture(line));
+		check_duplicate_texture(line);
 	free(texture);
 }

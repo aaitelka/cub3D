@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:48:22 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 18:38:46 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:24:18 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	is_floor_color(const char *line)
 	return (ft_starts_with(line, "F"));
 }
 
-int	get_rgb(int r, int g, int b)
+int	get_rgb(int r, int g, int b, int a)
 {
-	return (r << 16 | g << 8 | b);
+	    return (a << 24 | r << 16 | g << 8 | b);
 }

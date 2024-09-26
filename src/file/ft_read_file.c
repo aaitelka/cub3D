@@ -6,12 +6,13 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:03:49 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/19 17:38:41 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:40:52 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
+#include <sys/stat.h>
 int	ft_open(char *file)
 {
 	int	fd;
@@ -19,8 +20,9 @@ int	ft_open(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == FAILED)
 	{
-		perror("open file");
-		return (FAILED);
+		ft_error(file, strerror(errno));
+		close(fd);
+		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }
@@ -61,7 +63,7 @@ int	ft_readfile(int fd, void parse(t_cub3d *, char *), t_cub3d *cube)
 			else
 				break ;
 		}
-		cube->map.point.y++;
+		cube->map.point.row++;
 		if (cube->ismap)
 			ft_readmap(cube, &line);
 		else

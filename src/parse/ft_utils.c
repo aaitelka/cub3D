@@ -6,18 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:35:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/20 08:20:02 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:41:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
-
-bool	is_color(const char *line)
-{
-	if (ft_starts_with(line, "F ") || ft_starts_with(line, "C "))
-		return (true);
-	return (false);
-}
 
 bool	is_texture(const char *line)
 {
@@ -29,9 +22,9 @@ bool	is_texture(const char *line)
 
 t_colors	colors_initialized(t_map *map)
 {
-	if (map->colors[F] == 0)
+	if (map->colors[F] < 0)
 		return (F);
-	else if (map->colors[C] == 0)
+	else if (map->colors[C] < 0)
 		return (C);
 	return (COLORS_SIZE);
 }

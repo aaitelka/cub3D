@@ -6,89 +6,90 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/20 08:41:20 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/26 08:03:48 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	check_duplicate_color(const char *str)
+static int	get_color(char **colors)
 {
-	if (is_floor_color(str))
-		ft_error("F", "color already exists");
-	else if (is_ceiling_color(str))
-		ft_error("C", "color already exists");
-	exit(EXIT_FAILURE);
-}
-
-static int	get_color(t_cub3d *cube, char *str)
-{
-	char			**colors;
 	int				rgb;
 	int				r;
 	int				g;
 	int				b;
 
-	colors = ft_split(str, ',');
-	if (colors == NULL)
-	{
-		free(str);
-		ft_error(str, "failed to split colors");
-		return (FAILED);
-	}
 	r = ft_atoi(colors[0]);
 	g = ft_atoi(colors[1]);
 	b = ft_atoi(colors[2]);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	if (!is_valid_color(r) || !is_valid_color(g) || !is_valid_color(b))
 	{
-		ft_clear(colors, 3);
-		ft_error(str, "color has to be in the range [0, 255]");
-		return (FAILED);
+		ft_clear_array(colors, ft_array_size(colors));
+		ft_error("color", "color has to be in the range [0, 255]");
+		exit(EXIT_FAILURE);
 	}
-	rgb = get_rgb(r, g, b);
-	ft_clear(colors, 3);
+	rgb = get_rgb(r, g, b, 0);
+	ft_clear_array(colors, ft_array_size(colors));
 	return (rgb);
 }
 
-static void	check_color(char *color)
+static bool	is_valid_rgb(char *color)
 {
-	int				i;
+	int				index;
 	int				comma;
 	bool			is_valid;
 
+	if (!color)
+		return (false);
+	index = 0;
 	comma = 0;
-	i = 0;
 	is_valid = true;
-	if (ft_starts_with(color, ",") || ft_ends_with(color, ","))
-		is_valid = false;
-	while (is_valid && color[i])
+	while (color[index])
 	{
-		if (ft_isdigit(color[i]) || (is_space(color[i]) || (color[i] == 9)))
+		if (ft_isdigit(color[index]) || (is_space(color[index]) || (color[index] == '\t')))
 			;
-		else if (color[i] == ',')
+		else if (color[index] == ',')
 			comma++;
 		else
 			is_valid = false;
-		i++;
+		index++;
 	}
 	if (!is_valid || comma != 2)
-	{
-		ft_error(color, "color has to be in the format: R,G,B");
-		exit(EXIT_FAILURE);
-	}
+		return (false);
+	return (true);
 }
 
+/**
+ * @brief Parse the color from the line
+ * @param cube The game structure
+ * @param line The line to parse
+ */
 void	ft_parse_color(t_cub3d *cube, char *line)
 {
+	char			**colors;
 	char			*color;
+	size_t			size;
+	bool			valid;
 
 	color = ft_strtrim(line + 1, " \t\n");
-	check_color(color);
+	valid = is_valid_rgb(color);
+	colors = ft_split(color, ',');
+	size = ft_array_size(colors);
+	if (!valid || !colors || size != 3)
+	{
+		free(color);
+		ft_clear_array(colors, ft_array_size(colors));
+		ft_error(line, "color has to be in the format: R,G,B");
+		return ;
+	}
 	if (is_floor_color(line) && cube->map.colors[F] == 0)
-		cube->map.colors[F] = get_color(cube, color);
+		cube->map.colors[F] = get_color(colors);
 	else if (is_ceiling_color(line) && cube->map.colors[C] == 0)
-		cube->map.colors[C] = get_color(cube, color);
+		cube->map.colors[C] = get_color(colors);
 	else
-		check_duplicate_color(line);
+	{
+		ft_clear_array(colors, ft_array_size(colors));
+		ft_error(line, "color already exists");
+	}
 	free(color);
 }
