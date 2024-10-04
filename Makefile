@@ -6,7 +6,7 @@
 #    By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/15 09:12:42 by aaitelka          #+#    #+#              #
-#    Updated: 2024/09/26 11:28:49 by aaitelka         ###   ########.fr        #
+#    Updated: 2024/09/27 09:31:54 by aaitelka         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ GREEN := \033[0;32m
 NC := \033[0m
 LIBMLX := ./lib/MLX42
 LIBFT := ./lib/libft
-CC := cc #-g -fsanitize=address
+CC := cc -g -fsanitize=address
 CFLAGS := #-Wall -Wextra -Werror
 NAME := cub3D
 BONUS := cub3D_bonus
@@ -23,6 +23,7 @@ HEADS := -I ./include -I ./bonus/include -I $(LIBFT) -I $(LIBMLX)/include/MLX42
 LIBS := $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -lglfw -ldl -pthread -lm -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRCS := src/main.c \
+		src/draw/ft_circle.c \
 		src/array/ft_array_utils.c \
 		src/str/ft_ends_with.c \
 		src/str/ft_starts_with.c \
@@ -39,6 +40,7 @@ SRCS := src/main.c \
 		src/parse/ft_utils.c \
 		src/map/ft_square_it.c \
 		src/utils/ft_psp.c \
+		src/window/ft_window.c \
 		src/cleaner/ft_clean.c \
 		src/error/ft_error.c \
 

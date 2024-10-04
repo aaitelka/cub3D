@@ -6,13 +6,13 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:40:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 15:27:19 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:25:11 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	check_valid_chars(t_point point, const char *line)
+static void	check_valid_chars(t_point *point, const char *line)
 {
 	char			*alien;
 	int				index; 
@@ -28,8 +28,7 @@ static void	check_valid_chars(t_point point, const char *line)
 		if (line[ft_strlen(line) - 1] == '\n')
 		{
 			ft_error("\\n", "map has new line");
-			printf("\t^  ~~~~~~~~~~~~~~~~~~~~~~~\n");
-			exit(EMHASNL);
+			return ;
 		}
 		if (!valid_char(line[index]))
 		{
@@ -37,28 +36,20 @@ static void	check_valid_chars(t_point point, const char *line)
 			if (ft_strcmp(alien, "\t") == 0)
 			{
 				ft_error("\\t", "map contains tab");
-			printf("\t^  ~~~~~~~~~~~~~~~~~~~~~~~\n");
 				return ;
 			}
 			ft_error(alien, "invalid character in map");
-			printf("\t^  ~~~~~~~~~~~~~~~~~~~~~~~\n");
-			printf("in row[%d] column[%d] charachter %c not recognized\n", \
-					point.row, index + 1, line[index]);
+			// printf("in row[%d] column[%d] charachter %c not recognized\n", \
+			// 		point->row, index + 1, line[index]);
 			free(alien);
-			exit(EXIT_FAILURE);
+			return ;
 		}
 		index++;
 	}
 	if (player == 0)
-	{
 		ft_error("player", "player not found");
-		exit(EXIT_FAILURE);
-	} 
 	else if (player > 1)
-	{
 		ft_error("player", "multiple players found");
-		exit(EXIT_FAILURE);
-	}
 }
 
 bool	in_bounds(t_map *map, int row, int col)
@@ -84,11 +75,11 @@ static void	check_map(t_map *map)
 		ft_error("map", "failed to split map");
 		return ;
 	}
-	row = 0;
-	while (map->_2d[row])
+	row = -1;
+	while (map->_2d[++row])
 	{
-		col = 0;
-		while (map->_2d[row][col])
+		col = -1;
+		while (++col < map->longest)
 		{
 			if (is_zero(map->_2d[row][col]) || is_player(map->_2d[row][col]))
 			{
@@ -98,9 +89,7 @@ static void	check_map(t_map *map)
 					break ;
 				}
 			}
-			col++;
 		}
-		row++;
 	}
 }
 
@@ -116,10 +105,10 @@ void	ft_parse_map(t_cub3d *cube)
 		ft_error("map", "has only spaces");
 		return ;
 	}
-	check_valid_chars(cube->map.point, cube->map.content);
+	check_valid_chars(&cube->map.point, cube->map.content);
 	if (cube->map.size < 3 || cube->map.longest < 3)
 		ft_error(cube->map.content, "ma map ma ta l3ba hadi\n");
-	 cube->map._2d = ft_split(cube->map.content, '\n');
+	cube->map._2d = ft_split(cube->map.content, '\n');
 	if (cube->map._2d == NULL)
 	{
 		ft_error("map", "failed to split map");

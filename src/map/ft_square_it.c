@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:56:01 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 15:28:11 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:38:21 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,12 @@ static char	*fill_row(char *row, int size)
 	if (!row)
 		return (NULL);
 	index = -1;
-	filled = ft_calloc(size, sizeof(char));
+	filled = calloc(size + 1, sizeof(char));
 	if (filled == NULL)
 		return (NULL);
-	ft_memset(filled, '_', size - 1);
+	ft_memset(filled, ' ', size - 1);
 	while (row[++index])
-	{
-		if (filled[index])
-			filled[index] = row[index];
-	}
+		filled[index] = row[index];
 	return (filled);
 }
 
@@ -47,23 +44,22 @@ void	square_it(t_map *map)
 	char			**squared;
 	int				row;
 
-	row = 0;
-	squared = ft_calloc(map->size + 1, sizeof(char *));
+	row = -1;
+	squared = calloc(map->size + 1, sizeof(char *));
 	if (squared == NULL)
 	{
 		ft_error("malloc", "failed to allocate memory");
 		return ;
 	}
-	while (row < map->size)
+	squared[map->size] = NULL;
+	while (map->_2d[++row])
 	{
 		squared[row] = fill_row(map->_2d[row], map->longest);
 		if (squared[row] == NULL)
 			break ;
-		printf("\n%s", squared[row]);
 		free(map->_2d[row]);
-		row++;
 	}
 	free(map->_2d);
-	squared[map->size] = NULL;
+	map->_2d = NULL;
 	map->_2d = squared;
 }

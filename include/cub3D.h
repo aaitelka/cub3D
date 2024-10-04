@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 16:50:25 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/27 09:42:46 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,12 @@ bool			is_texture(const char *line);
 //* ARRAY UTILS
 size_t			ft_array_size(char **array);
 void			ft_clear_array(char **array, int size);
+
+//* DRAW
+void			ft_draw_circle(t_cub3d *cube, uint32_t width, uint32_t height);
+
+//* WINDOW
+void			ft_fill_window(t_cub3d *cube);
 
 //* CLEAN
 void			ft_destroy(t_cub3d *cube);

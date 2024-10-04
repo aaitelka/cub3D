@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:03:49 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 18:40:52 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:17:41 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ static void	ft_readmap(t_cub3d *cube, char **line)
 	if (*line[0] == '\n')
 	{
 		ft_error("\\n", "has new linee");
-		printf("\t^  ~~~~~~~~~~~~~~~~~~~~~~~\n");
-		exit(EMHASNL);
+		return ;
 	}
+
+	if (cube->map.longest < (int)ft_strlen(*line))
+		cube->map.longest = ft_strlen(*line);
 	cube->map.size++;
 	joined = ft_strjoin(cube->map.content, *line);
 	free(cube->map.content);
