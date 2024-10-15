@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/27 10:51:25 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/07 10:49:51 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,6 @@ void	check_file_status(char *filename, int status)
 	}
 }
 
-void colorize(t_cub3d *cube)
-{
-	mlx_image_t* img = mlx_new_image(cube->mlx, 1920, 1080);
-	// memset(img->pixels, 16711680, img->width * img->height * sizeof(int32_t));
-	if (!img || (mlx_image_to_window(cube->mlx, img, 0, 0) < 0))
-	{
-		ft_error("mlx_image", "failed to create or display image");
-		mlx_terminate(cube->mlx);
-		exit(EXIT_FAILURE);
-	}
-	unsigned int color = 0xFFFFFFFF;
-	int index = -1;
-	while (++index < 1920)
-	{
-		int index2 = -1;
-		while (++index2 < 1080)
-		{
-			mlx_put_pixel(img, index, index2, cube->map.colors[F]);
-		}
-	}
-	
-		// mlx_put_pixel(img, index, index, 0xFFFFFFFF);
-}
-
 static void key_listener(void *param)
 {
 	mlx_t *mlx;
@@ -81,42 +57,6 @@ static void key_listener(void *param)
 	}
 }
 
-void put_circle_pixels(mlx_image_t *img, int xc, int yc, int x, int y, int color)
-{
-    mlx_put_pixel(img, xc + x, yc + y, color);
-    mlx_put_pixel(img, xc - x, yc + y, color);
-    mlx_put_pixel(img, xc + x, yc - y, color);
-    mlx_put_pixel(img, xc - x, yc - y, color);
-    mlx_put_pixel(img, xc + y, yc + x, color);
-    mlx_put_pixel(img, xc - y, yc + x, color);
-    mlx_put_pixel(img, xc + y, yc - x, color);
-    mlx_put_pixel(img, xc - y, yc - x, color);
-}
-
-// Function to draw a circle using Midpoint/Bresenham's algorithm
-void draw_circle(t_cub3d *cub, int xc, int yc, int radius, int color)
-{
-    int x = 0;
-    int y = radius;
-    int d = 3 - 2 * radius;
-    
-	mlx_image_t *img = mlx_new_image(cub->mlx, 1920, 1080);
-	mlx_image_to_window(cub->mlx, img, 0, 0);
-    put_circle_pixels(img, xc, yc, x, y, color);
-    while (y >= x)
-    {
-        x++;
-        if (d > 0)
-        {
-            y--;
-            d = d + 4 * (x - y) + 10;
-        }
-        else
-            d = d + 4 * x + 6;
-        put_circle_pixels(img, xc, yc, x, y, color);
-    }
-}
-
 static int	start_game(char *map_file)
 {
 	t_cub3d cube3d;
@@ -125,14 +65,10 @@ static int	start_game(char *map_file)
 	cube3d.map = (t_map){0};
 	int fd = ft_open(map_file);
 	if (fd == FAILED)
-	{
 		ft_error(map_file, NULL);
-	}
 	int status = ft_readfile(fd, ft_parse, &cube3d);
 	check_file_status(map_file, status);
 	close(fd);
-	// ft_fill_window(&cube3d);
-	// ft_draw_circle(&cube3d, 1920, 1080);
 	// colorize(&cube3d);
 	// int ret = textures_initialized(&cube3d.map);
 	// if (ret == EA)
@@ -156,48 +92,19 @@ static int	start_game(char *map_file)
 	// 	return (FAILED);
 	// }
 	
-	//! check if colors are initialized
-	if (colors_initialized(&cube3d.map) != COLORS_SIZE)
-	{
-		ft_error("colors", "missing colors");
-		return (FAILED);
-	}
-	
-
-	 int xc = 1920 / 2;
-    int yc = 1080 / 2;
-    int radius = 150;
-    int color = 0x00FF00; // Green color in hexadecimal
-
-    // Draw the circle
-    // draw_circle(&cube3d, xc, yc, radius, color);
-
-	
-	// mlx_new_image(cube3d.mlx, 1920, 1080);
-	// int index = 0;
-	// int width = 0;
-	// int height = 0;
-	// while (index < 1080)
-	// {
-	// 	int index2 = 0;
-	// 	while (index2 < 1920)
-	// 	{
-	// 		mlx_image_to_window(cube3d.mlx, cube3d.map.textures[NO], index2 * 60, index * 60);
-	// 		index2++;
-	// 	}
-	// 	index++;
-	// }
-	// mlx_loop_hook(cube3d.mlx, key_listener, cube3d.mlx);
-	// mlx_loop(cube3d.mlx);
 	destroty_game(&cube3d);
 	return (SUCCESS);
+}
+static inline bool is_valid_ext(char *p)
+{
+	return (ft_strncmp(p + ft_strlen(p) - 4, ".cub", 4) == 0);
 }
 
 void leak(){system("leaks cub3D");}
 int main(int argc, char **argv)
 {
-	// atexit(leak);
-	if (argc == 2 && ft_ends_with(argv[argc - 1], ".cub"))
+	atexit(leak);
+	if (argc == 2 && is_valid_ext(argv[argc - 1]))
 		start_game(argv[argc - 1]);
 	else
 		ft_error("map", "missing [map].cub");

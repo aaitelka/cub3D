@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/27 09:42:46 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:50:29 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ typedef enum e_directions
 	EA,
 	SO,
 	WE,
-	TEXTURES_SIZE
+	TXTRS_SZ
 }	t_directions;
 
 typedef enum e_colors
 {
 	F,
 	C,
-	COLORS_SIZE
+	CLRS_SZ
 }	t_colors;
 
 typedef struct s_point
@@ -77,13 +77,14 @@ typedef struct s_map
 	char 			**_2d;
 	size_t			longest;
 	int				size;
-	int				colors[COLORS_SIZE];
-	mlx_image_t		*textures[TEXTURES_SIZE];
+	int				colors[CLRS_SZ];
+	mlx_image_t		*textures[TXTRS_SZ];
 	t_point			point;
 }	t_map;
 
 typedef struct s_cub3d
 {
+	int				materials;
 	char			*map_path;
 	char			*content;
 	mlx_image_t		*image;
@@ -92,23 +93,18 @@ typedef struct s_cub3d
 	bool			ismap;
 }	t_cub3d;
 
-/*		STR		*/
-bool			ft_starts_with(const char *str, const char *prefix);
-bool			ft_ends_with(const char *str, const char *prefix);
-
 //* FILE
 int				ft_open(char *file);
-int				ft_readfile(int fd, void f(t_cub3d *, char *), t_cub3d *cube);
-bool			ft_is_valid_ext(char *file_name, char *ext);
+int				ft_readfile(int fd, int f(t_cub3d *, char *), t_cub3d *cube);
 
 //* PARSE
-void			ft_parse_map(t_cub3d *cube);
-void			ft_parse(t_cub3d *cube, char *line);
-void			ft_parse_color(t_cub3d *cube, char *line);
-void			ft_parse_texture(t_cub3d *cube, char *line);
+int					ft_parse(t_cub3d *cube, char *line);
+int					ft_parse_texture(t_cub3d *cube, char *line);
+int					ft_parse_color(t_cub3d *cube, char *line);
+int					ft_parse_map(t_cub3d *cube);
 
-t_colors		colors_initialized(t_map *map);
-t_directions	textures_initialized(t_map *map);
+t_colors		colors_inited(t_map *map);
+t_directions	textures_inited(t_map *map);
 
 //* MAP
 void			square_it(t_map *map);
@@ -120,8 +116,8 @@ bool			is_north_texture(const char *line);
 bool			is_south_texture(const char *line);
 
 /** Colors	*/
-bool			is_ceiling_color(const char *line);
-bool			is_floor_color(const char *line);
+bool			is_ceiling(const char *line);
+bool			is_floor(const char *line);
 int				get_rgb(int r, int g, int b, int a);
 
 //* UTILS
@@ -160,6 +156,6 @@ void			ft_destroy(t_cub3d *cube);
 
 //* ERROR
 void			set_error(t_point *point, int row, int col, int err);
-void			ft_error(char *where, char *msg);
+int					ft_error(char *where, char *msg);
 
 #endif

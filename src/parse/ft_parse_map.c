@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:40:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/04 21:25:11 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:48:43 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static void	check_valid_chars(t_point *point, const char *line)
 				return ;
 			}
 			ft_error(alien, "invalid character in map");
-			// printf("in row[%d] column[%d] charachter %c not recognized\n", \
-			// 		point->row, index + 1, line[index]);
 			free(alien);
 			return ;
 		}
@@ -93,30 +91,22 @@ static void	check_map(t_map *map)
 	}
 }
 
-void	ft_parse_map(t_cub3d *cube)
+int	ft_parse_map(t_cub3d *cube)
 {
 	if (!cube->map.content)
-	{
-		ft_error("map", "no map found hh");
-		return ;
-	}
+		return ft_error("map", "no map found hh");
 	if (is_blank(cube->map.content))
-	{
-		ft_error("map", "has only spaces");
-		return ;
-	}
-	check_valid_chars(&cube->map.point, cube->map.content);
+		return ft_error("map", "has only spaces");
 	if (cube->map.size < 3 || cube->map.longest < 3)
-		ft_error(cube->map.content, "ma map ma ta l3ba hadi\n");
+		return ft_error(cube->map.content, "ma map ma ta l3ba hadi\n");
+	check_valid_chars(&cube->map.point, cube->map.content);
 	cube->map._2d = ft_split(cube->map.content, '\n');
 	if (cube->map._2d == NULL)
-	{
-		ft_error("map", "failed to split map");
-		return ;
-	}
+		return ft_error("map", "failed to split map");
 	square_it(&cube->map);
 	check_map(&cube->map);
 	if (cube->map.point.err)
 		printf("error in row[%d] col[%d] error code: %d\n", \
 		cube->map.point.row, cube->map.point.col, cube->map.point.err );
+	return 0;
 }

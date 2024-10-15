@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 08:03:48 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:47:39 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	get_color(char **colors)
 	{
 		ft_clear_array(colors, ft_array_size(colors));
 		ft_error("color", "color has to be in the range [0, 255]");
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	rgb = get_rgb(r, g, b, 0);
 	ft_clear_array(colors, ft_array_size(colors));
@@ -64,7 +64,7 @@ static bool	is_valid_rgb(char *color)
  * @param cube The game structure
  * @param line The line to parse
  */
-void	ft_parse_color(t_cub3d *cube, char *line)
+int	ft_parse_color(t_cub3d *cube, char *line)
 {
 	char			**colors;
 	char			*color;
@@ -79,12 +79,11 @@ void	ft_parse_color(t_cub3d *cube, char *line)
 	{
 		free(color);
 		ft_clear_array(colors, ft_array_size(colors));
-		ft_error(line, "color has to be in the format: R,G,B");
-		return ;
+		return ft_error(line, "color has to be in the format: R,G,B");
 	}
-	if (is_floor_color(line) && cube->map.colors[F] == 0)
+	if (is_floor(line) && cube->map.colors[F] == 0)
 		cube->map.colors[F] = get_color(colors);
-	else if (is_ceiling_color(line) && cube->map.colors[C] == 0)
+	else if (is_ceiling(line) && cube->map.colors[C] == 0)
 		cube->map.colors[C] = get_color(colors);
 	else
 	{
@@ -92,4 +91,5 @@ void	ft_parse_color(t_cub3d *cube, char *line)
 		ft_error(line, "color already exists");
 	}
 	free(color);
+	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:34:21 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 12:18:50 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:52:14 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,16 @@ static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
 	return (image);
 }
 
-void	ft_parse_texture(t_cub3d *cube, char *line)
+int	ft_parse_texture(t_cub3d *cube, char *line)
 {
 	char			*texture;
 	mlx_image_t		*image;
 
 	texture = ft_strtrim(line + 2, " \t\n");
+	free(line);
 	image = ft_load_image(cube->mlx, texture);
 	if (image == NULL)
-	{
-		ft_error(texture, "failed to load image");
-		free(texture);
-		return ;
-	}
+		return (free(texture), ft_error(texture, "failed to load image"));
 	if (is_north_texture(line) && cube->map.textures[NO] == NULL)
 		cube->map.textures[NO] = image;
 	else if (is_east_texture(line) && cube->map.textures[EA] == NULL)
@@ -63,4 +60,5 @@ void	ft_parse_texture(t_cub3d *cube, char *line)
 	else
 		check_duplicate_texture(line);
 	free(texture);
+	return 0;
 }
