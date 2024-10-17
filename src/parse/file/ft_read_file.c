@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:03:49 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:54:09 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:47:53 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_open(char *file)
 	return (fd);
 }
 
-static void	ft_readmap(t_cub3d *cube, char *line)
+static void	ft_readmap(t_cube *cube, char *line)
 {
 	char			*joined;
 	char			*newline;
@@ -48,7 +48,7 @@ static void	ft_readmap(t_cub3d *cube, char *line)
 	free(line);
 }
 
-int	ft_readfile(int fd, int parse(t_cub3d *, char *), t_cub3d *cube)
+int	ft_readfile(int fd, int parse(t_cube *, char *), t_cube *cube)
 {
 	char			*line;
 	int				status;
@@ -69,10 +69,10 @@ int	ft_readfile(int fd, int parse(t_cub3d *, char *), t_cub3d *cube)
 		cube->map.point.row++;
 		if (parse(cube, line) == FAILED)
 			return (FAILED);
-		if (cube->ismap)
-			ft_readmap(cube, line);
+		// if (cube->ismap)
+		// 	ft_readmap(cube, line);
 		status++;
 	}
-	ft_parse_map(cube);
+	// ft_parse_map(cube);
 	return (SUCCESS);
 }

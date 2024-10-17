@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:40:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:48:43 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:19:29 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	check_map(t_map *map)
 			{
 				if (in_bounds(map, row, col) || inside_space(map, row, col))
 				{
-					set_error(&map->point, row, col, 1);
+					printf("error in row[%d] col[%d]\n", row, col);
 					break ;
 				}
 			}
@@ -91,7 +91,7 @@ static void	check_map(t_map *map)
 	}
 }
 
-int	ft_parse_map(t_cub3d *cube)
+int	ft_parse_map(t_cube *cube)
 {
 	if (!cube->map.content)
 		return ft_error("map", "no map found hh");
@@ -105,8 +105,5 @@ int	ft_parse_map(t_cub3d *cube)
 		return ft_error("map", "failed to split map");
 	square_it(&cube->map);
 	check_map(&cube->map);
-	if (cube->map.point.err)
-		printf("error in row[%d] col[%d] error code: %d\n", \
-		cube->map.point.row, cube->map.point.col, cube->map.point.err );
 	return 0;
 }

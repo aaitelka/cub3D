@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:35:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:50:46 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:30:09 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 bool	is_texture(const char *line)
 {
-	if (ft_strncmp(line, "NO ", 3) == SUCCESS
-		|| ft_strncmp(line, "EA ", 3) == SUCCESS
-		|| ft_strncmp(line, "SO ", 3) == SUCCESS
-		|| ft_strncmp(line, "WE ", 3) == SUCCESS)
+	if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "EA ", 3)
+		|| !ft_strncmp(line, "SO ", 3) || !ft_strncmp(line, "WE ", 3))
 		return (true);
 	return (false);
 }
@@ -33,13 +31,13 @@ t_colors	colors_inited(t_map *map)
 
 t_directions	textures_inited(t_map *map)
 {
-	if (map->textures[NO] == NULL)
+	if (!map->textures[NO])
 		return (NO);
-	else if (map->textures[EA] == NULL)
+	else if (!map->textures[EA])
 		return (EA);
-	else if (map->textures[SO] == NULL)
+	else if (!map->textures[SO])
 		return (SO);
-	else if (map->textures[WE] == NULL)
+	else if (!map->textures[WE])
 		return (WE);
 	return (TXTRS_SZ);
 }

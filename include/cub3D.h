@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:50:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:20:03 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define EMFEMPTY "File is empty"
 
-# define RED "\033[31m"
+# define R3D "\033[31m"
 # define ORNG "\033[38;5;208m"
 # define RESET "\033[0m"
 
@@ -68,7 +68,6 @@ typedef struct s_point
 {
 	int				row;
 	int				col;
-	int				err;
 }	t_point;
 
 typedef struct s_map
@@ -82,7 +81,7 @@ typedef struct s_map
 	t_point			point;
 }	t_map;
 
-typedef struct s_cub3d
+typedef struct s_cube
 {
 	int				materials;
 	char			*map_path;
@@ -91,17 +90,17 @@ typedef struct s_cub3d
 	mlx_t			*mlx;
 	t_map			map;
 	bool			ismap;
-}	t_cub3d;
+}	t_cube;
 
 //* FILE
 int				ft_open(char *file);
-int				ft_readfile(int fd, int f(t_cub3d *, char *), t_cub3d *cube);
+int				ft_readfile(int fd, int f(t_cube *, char *), t_cube *cube);
 
 //* PARSE
-int					ft_parse(t_cub3d *cube, char *line);
-int					ft_parse_texture(t_cub3d *cube, char *line);
-int					ft_parse_color(t_cub3d *cube, char *line);
-int					ft_parse_map(t_cub3d *cube);
+int					ft_parse(t_cube *cube, char *line);
+int					ft_parse_texture(t_cube *cube, char *line);
+int					ft_parse_color(t_cube *cube, char *line);
+int					ft_parse_map(t_cube *cube);
 
 t_colors		colors_inited(t_map *map);
 t_directions	textures_inited(t_map *map);
@@ -146,16 +145,15 @@ size_t			ft_array_size(char **array);
 void			ft_clear_array(char **array, int size);
 
 //* DRAW
-void			ft_draw_circle(t_cub3d *cube, uint32_t width, uint32_t height);
+void			ft_draw_circle(t_cube *cube, uint32_t width, uint32_t height);
 
 //* WINDOW
-void			ft_fill_window(t_cub3d *cube);
+void			ft_fill_window(t_cube *cube);
 
 //* CLEAN
-void			ft_destroy(t_cub3d *cube);
+void			ft_destroy(t_cube *cube);
 
 //* ERROR
-void			set_error(t_point *point, int row, int col, int err);
 int					ft_error(char *where, char *msg);
 
 #endif

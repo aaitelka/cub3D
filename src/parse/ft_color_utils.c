@@ -6,21 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 08:49:27 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/04 21:48:40 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:33:57 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
-
-bool	is_ceiling(const char *line)
-{
-	return (ft_strncmp(line, "C ", 2) == 0);
-}
-
-bool	is_floor(const char *line)
-{
-	return (ft_strncmp(line, "F ", 2) == 0);
-}
 
 int	get_rgb(int r, int g, int b, int a)
 {
@@ -44,7 +34,7 @@ inline bool	is_valid_color(const int c)
 */
 inline bool	is_color(const char *line)
 {
-	if (is_ceiling(line) || is_floor(line))
+	if (!ft_strncmp(line, "C ", 1) || !ft_strncmp(line, "F ", 1) )
 		return (true);
 	return (false);
 }

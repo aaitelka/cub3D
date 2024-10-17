@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:31:27 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 08:19:22 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:13:53 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ size_t	ft_array_size(char **array)
 		;
 	return (size);
 }
+
 /**
  * @brief Clear the array of strings
  * @param array The array to clear

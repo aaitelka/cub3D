@@ -6,22 +6,23 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:34:21 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:52:14 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:09:25 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	check_duplicate_texture(const char *str)
+static int	check_duplicate_texture(const char *line)
 {
-	if (is_north_texture(str))
-		ft_error("NO", "texture already exists");
-	else if (is_east_texture(str))
-		ft_error("EA", "texture already exists");
-	else if (is_south_texture(str))
-		ft_error("SO", "texture already exists");
-	else if (is_west_texture(str))
-		ft_error("WE", "texture already exists");
+	if (ft_strncmp(line, "NO", 2) == SUCCESS)
+		return (ft_error("NO", "texture already exists"));
+	else if (ft_strncmp(line, "EA", 2) == SUCCESS)
+		return (ft_error("EA", "texture already exists"));
+	else if (ft_strncmp(line, "SO", 2) == SUCCESS)
+		return (ft_error("SO", "texture already exists"));
+	else if (ft_strncmp(line, "WE", 2) == SUCCESS)
+		return (ft_error("WE", "texture already exists"));
+	return (SUCCESS);
 }
 
 static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
@@ -39,26 +40,26 @@ static mlx_image_t	*ft_load_image(mlx_t *mlx, const char *str)
 	return (image);
 }
 
-int	ft_parse_texture(t_cub3d *cube, char *line)
+int	ft_parse_texture(t_cube *cube, char *line)
 {
 	char			*texture;
 	mlx_image_t		*image;
 
 	texture = ft_strtrim(line + 2, " \t\n");
-	free(line);
+	if (!texture)
+		return (free(line), ft_error(line, "failed trim line"));
 	image = ft_load_image(cube->mlx, texture);
-	if (image == NULL)
-		return (free(texture), ft_error(texture, "failed to load image"));
-	if (is_north_texture(line) && cube->map.textures[NO] == NULL)
+	if (!image)
+		return (free(texture), free(line), ft_error(texture, "failed to load image"));
+	if (!ft_strncmp(line, "NO", 2) && !cube->map.textures[NO])
 		cube->map.textures[NO] = image;
-	else if (is_east_texture(line) && cube->map.textures[EA] == NULL)
+	else if (!ft_strncmp(line, "EA", 2) && !cube->map.textures[EA])
 		cube->map.textures[EA] = image;
-	else if (is_south_texture(line) && cube->map.textures[SO] == NULL)
+	else if (!ft_strncmp(line, "SO", 2) && !cube->map.textures[SO])
 		cube->map.textures[SO] = image;
-	else if (is_west_texture(line) && cube->map.textures[WE] == NULL)
+	else if (!ft_strncmp(line, "WE", 2) && !cube->map.textures[WE])
 		cube->map.textures[WE] = image;
-	else
-		check_duplicate_texture(line);
-	free(texture);
-	return 0;
+	else if (check_duplicate_texture(line) != SUCCESS)
+		return (free(texture), free(line), FAILED);
+	return (free(texture), free(line), SUCCESS);
 }

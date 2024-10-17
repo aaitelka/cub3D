@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/15 14:47:39 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:28:17 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static bool	is_valid_rgb(char *color)
  * @param cube The game structure
  * @param line The line to parse
  */
-int	ft_parse_color(t_cub3d *cube, char *line)
+int	ft_parse_color(t_cube *cube, char *line)
 {
 	char			**colors;
 	char			*color;
@@ -81,15 +81,15 @@ int	ft_parse_color(t_cub3d *cube, char *line)
 		ft_clear_array(colors, ft_array_size(colors));
 		return ft_error(line, "color has to be in the format: R,G,B");
 	}
-	if (is_floor(line) && cube->map.colors[F] == 0)
+	if (!ft_strncmp(line, "F ", 2) && cube->map.colors[F] == 0)
 		cube->map.colors[F] = get_color(colors);
-	else if (is_ceiling(line) && cube->map.colors[C] == 0)
+	else if (!ft_strncmp(line, "C ", 2) && cube->map.colors[C] == 0)
 		cube->map.colors[C] = get_color(colors);
 	else
 	{
 		ft_clear_array(colors, ft_array_size(colors));
 		ft_error(line, "color already exists");
 	}
-	free(color);
-	return 0;
+	// free(color);
+	return (0);
 }

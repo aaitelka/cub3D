@@ -6,13 +6,13 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/07 10:49:51 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:03:07 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	destroty_game(t_cub3d *cube)
+static void	destroty_game(t_cube *cube)
 {
 	if (cube->map.content)
 		free(cube->map.content);
@@ -21,28 +21,17 @@ static void	destroty_game(t_cub3d *cube)
 	ft_destroy(cube);
 }
 
-void	check_file_status(char *filename, int status)
+int	check_file_status(char *filename, int status)
 {
 	if (status == EISDIR)
-	{
-		ft_error(filename, strerror(EISDIR));
-		exit(EISDIR);
-	}
+		return (ft_error(filename, strerror(EISDIR)));
 	else if (status == ENOENT)
-	{
-		ft_error(filename, strerror(ENOENT));
-		exit(ENOENT);
-	}
+		return (ft_error(filename, strerror(ENOENT)));
 	else if (status == EFEMPTY)
-	{
-		ft_error(filename, "File is empty");
-		exit(EXIT_FAILURE);
-	}
+		return (ft_error(filename, "File is empty"));
 	else if (status == EMHASTAB)
-	{
-		ft_error(filename, "Map has tab");
-		exit(EXIT_FAILURE);
-	}
+		return (ft_error(filename, "Map has tab"));
+	return (SUCCESS);
 }
 
 static void key_listener(void *param)
@@ -59,18 +48,18 @@ static void key_listener(void *param)
 
 static int	start_game(char *map_file)
 {
-	t_cub3d cube3d;
+	t_cube cube;
 
-	cube3d.mlx = mlx_init(1920, 1080, "cub3D", true);
-	cube3d.map = (t_map){0};
+	cube.mlx = mlx_init(1920, 1080, "cub3D", true);
+	cube.map = (t_map){0};
 	int fd = ft_open(map_file);
 	if (fd == FAILED)
 		ft_error(map_file, NULL);
-	int status = ft_readfile(fd, ft_parse, &cube3d);
+	int status = ft_readfile(fd, ft_parse, &cube);
 	check_file_status(map_file, status);
 	close(fd);
-	// colorize(&cube3d);
-	// int ret = textures_initialized(&cube3d.map);
+	// colorize(&cube);
+	// int ret = textures_initialized(&cube.map);
 	// if (ret == EA)
 	// {
 	// 	ft_error("textures", "east texture missing");
@@ -92,7 +81,7 @@ static int	start_game(char *map_file)
 	// 	return (FAILED);
 	// }
 	
-	destroty_game(&cube3d);
+	destroty_game(&cube);
 	return (SUCCESS);
 }
 static inline bool is_valid_ext(char *p)
