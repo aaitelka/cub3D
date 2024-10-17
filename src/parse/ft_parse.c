@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:41:04 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 09:10:19 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:10:20 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,20 @@ int	ft_parse(t_cube *cube, char *line)
 	char			*str;
 
 	if (i <= 6)
-	{
 		str = ft_strtrim(line, " \t");
-		free(line);
-	}
-	if (is_null(*str) || is_newline(*str))
-		return (free(str), 0);
 	if (is_texture(str) && i++)
 		return (ft_parse_texture(cube, str));
 	else if (is_color(str) && i++)
-		return ft_parse_color(cube, str);
-	// else if (is_map(*str) && i > 6)
-	// {
-	// 	if (cube->map.longest < (int)ft_strlen(str))
-	// 		cube->map.longest = ft_strlen(str);
-	// 	cube->map.size++;
-	// 	cube->ismap = true;
-	// 	cube->map.content = ft_strdup(line);
-	// }
-	// else
-		// return (ft_error(str, "invalid line"));
-	return (SUCCESS);
+		return (free(str), ft_parse_color(cube, str));
+	else if (is_map(*str) && i > 6)
+	{
+		if (cube->map.longest < (int)ft_strlen(str))
+			cube->map.longest = ft_strlen(str);
+		cube->map.size++;
+		cube->ismap = true;
+		cube->map.content = ft_strdup(line);
+	}
+	else
+		return (ft_error(str, "invalid line"));
+	return (free(str), SUCCESS);
 }

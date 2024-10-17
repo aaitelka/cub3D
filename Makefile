@@ -6,7 +6,7 @@
 #    By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/15 09:12:42 by aaitelka          #+#    #+#              #
-#    Updated: 2024/10/17 09:03:00 by aaitelka         ###   ########.fr        #
+#    Updated: 2024/10/17 17:12:23 by aaitelka         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ GREEN := \033[0;32m
 NC := \033[0m
 LIBMLX := ./lib/MLX42
 LIBFT := ./lib/libft
-CC := cc -g #-fsanitize=address
+CC := cc -g -fsanitize=address
 CFLAGS := #-Wall -Wextra -Werror
 NAME := cub3D
 BONUS := cub3D_bonus

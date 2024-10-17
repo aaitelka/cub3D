@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 11:31:27 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 08:13:53 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:27:47 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	ft_clear_array(char **array, int size)
 {
 	int				index;
 
-	if (!array || size == 0)
-		return ;
 	index = 0;
+	if (!array || !array[index] || size == 0)
+		return ;
 	while (index < size)
 	{
 		if (array[index] != NULL)

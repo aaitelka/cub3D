@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:03:49 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 08:47:53 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:10:32 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,19 @@ int	ft_readfile(int fd, int parse(t_cube *, char *), t_cube *cube)
 			else
 				break ;
 		}
+		else if (!cube->ismap && (is_blank(line) || is_null(line[0]) || !ft_strcmp(line,"") || !ft_strcmp(line,"\n")))
+		{
+			free(line);
+			continue;
+		}
 		cube->map.point.row++;
 		if (parse(cube, line) == FAILED)
-			return (FAILED);
-		// if (cube->ismap)
-		// 	ft_readmap(cube, line);
+			return (free(line), FAILED);
+		if (cube->ismap)
+			ft_readmap(cube, line);
+		free(line);
 		status++;
 	}
-	// ft_parse_map(cube);
+	ft_parse_map(cube);
 	return (SUCCESS);
 }

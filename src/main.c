@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 09:03:07 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:12:29 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static int	start_game(char *map_file)
 
 	cube.mlx = mlx_init(1920, 1080, "cub3D", true);
 	cube.map = (t_map){0};
+	cube.map.colors[C] = -1;
+	cube.map.colors[F] = -1;
 	int fd = ft_open(map_file);
 	if (fd == FAILED)
 		ft_error(map_file, NULL);
@@ -92,7 +94,7 @@ static inline bool is_valid_ext(char *p)
 void leak(){system("leaks cub3D");}
 int main(int argc, char **argv)
 {
-	atexit(leak);
+	// atexit(leak);
 	if (argc == 2 && is_valid_ext(argv[argc - 1]))
 		start_game(argv[argc - 1]);
 	else

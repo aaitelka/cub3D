@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 08:20:03 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:56:49 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,7 @@ t_directions	textures_inited(t_map *map);
 //* MAP
 void			square_it(t_map *map);
 
-/** Cardinal	*/
-bool			is_east_texture(const char *line);
-bool			is_west_texture(const char *line);
-bool			is_north_texture(const char *line);
-bool			is_south_texture(const char *line);
-
 /** Colors	*/
-bool			is_ceiling(const char *line);
-bool			is_floor(const char *line);
 int				get_rgb(int r, int g, int b, int a);
 
 //* UTILS
@@ -143,12 +135,6 @@ bool			is_texture(const char *line);
 //* ARRAY UTILS
 size_t			ft_array_size(char **array);
 void			ft_clear_array(char **array, int size);
-
-//* DRAW
-void			ft_draw_circle(t_cube *cube, uint32_t width, uint32_t height);
-
-//* WINDOW
-void			ft_fill_window(t_cube *cube);
 
 //* CLEAN
 void			ft_destroy(t_cube *cube);

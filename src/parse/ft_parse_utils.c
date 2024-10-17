@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 08:55:15 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/09/26 13:57:38 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:33:45 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ inline bool	is_newline(const char c)
 }
 
 /**
- * @brief Check if the line is blank
+ * @brief Check if the line is blank, blank means has only spaces or tabs or nl
  * @param line The line to check
  * @return true if the line is blank, false otherwise
 */
@@ -56,7 +56,7 @@ inline bool	is_blank(const char *line)
 	index = -1;
 	while (line[++index])
 	{
-		if (!is_space(line[index]) && !is_newline(line[index]))
+		if (!is_space(line[index]) && !is_newline(line[index]) || line[index] != '\t')
 			return (false);
 	}
 	return (true);
