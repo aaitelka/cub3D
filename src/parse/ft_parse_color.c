@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 17:08:55 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:16:02 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_parse_color(t_cube *cube, char *line)
 	if (!valid || !clrs || size != 3 || len(clrs[0]) > 3 || len(clrs[1]) > 3 || len(clrs[2]) > 3)
 	{
 		ft_clear_array(clrs, ft_array_size(clrs));
-		return (free(color), ft_error(color, "should be R,G,B format"));
+		return (ft_error(color, "should be R,G,B format"));
 	}
 	if (!ft_strncmp(line, "F ", 2) && cube->map.colors[F]  == -1)
 		cube->map.colors[F] = get_color(clrs);

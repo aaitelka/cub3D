@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:03:49 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 17:10:32 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:28:58 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	ft_open(char *file)
 	if (fd == FAILED)
 	{
 		ft_error(file, strerror(errno));
-		close(fd);
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
@@ -36,7 +35,6 @@ static void	ft_readmap(t_cube *cube, char *line)
 	if (is_newline(*line))
 	{
 		ft_error("\\n", "has new linee");
-		free(line);
 		return ;
 	}
 	if (cube->map.longest < (int)ft_strlen(line))
@@ -45,7 +43,6 @@ static void	ft_readmap(t_cube *cube, char *line)
 	joined = ft_strjoin(cube->map.content, line);
 	free(cube->map.content);
 	cube->map.content = joined;
-	free(line);
 }
 
 int	ft_readfile(int fd, int parse(t_cube *, char *), t_cube *cube)
@@ -74,7 +71,7 @@ int	ft_readfile(int fd, int parse(t_cube *, char *), t_cube *cube)
 		cube->map.point.row++;
 		if (parse(cube, line) == FAILED)
 			return (free(line), FAILED);
-		if (cube->ismap)
+		if (cube->ismap && is_map(*line))
 			ft_readmap(cube, line);
 		free(line);
 		status++;

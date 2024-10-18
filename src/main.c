@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 17:12:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:16:16 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ static int	start_game(char *map_file)
 	int status = ft_readfile(fd, ft_parse, &cube);
 	check_file_status(map_file, status);
 	close(fd);
-	// colorize(&cube);
-	// int ret = textures_initialized(&cube.map);
+	// int i = 0;
+	// while (i++ < 4)
+	// 	printf("%p\n", cube.map.textures[i]);
+	// i = 0;
+	// while (i++ < 4)
+	// 	printf("%d\n", cube.map.colors[i]);
+	// int ret = textures_inited(&cube.map);
 	// if (ret == EA)
 	// {
 	// 	ft_error("textures", "east texture missing");
