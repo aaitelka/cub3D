@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 07:01:14 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 08:20:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:26:09 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,4 @@
 
 void	ft_destroy(t_cube *cube)
 {
-	// printf("destroying cube\n");
 }

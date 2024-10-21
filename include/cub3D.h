@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 09:56:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:19:18 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@
 
 
 # define EMFEMPTY "File is empty"
+
+# define ETXAE "texture already exists"
+# define EIFAIL "failed to load image"
+# define ECNRGB "should be R,G,B format"
+# define ECOOR "color has range [0, 255]"
+# define ECCAE "ceiling already exists"
+# define ECFAE "floor already exists"
+
+# define EMAPNTF "not found!"
+# define EMAPHNL "has new line!"
+# define EMAPCTB "contains tab!"
+# define EMAPHIC "invalid character!"
+# define EMAPHOS "has only spaces"
+# define EMAPN33 "should be at least 3 x 3"
+
+# define EPNTFND "player not found!"
+# define EPMLFND "multiple players found!"
 
 # define R3D "\033[31m"
 # define ORNG "\033[38;5;208m"
@@ -89,12 +106,13 @@ typedef struct s_cube
 	mlx_image_t		*image;
 	mlx_t			*mlx;
 	t_map			map;
-	bool			ismap;
 }	t_cube;
 
+
+
 //* FILE
-int				ft_open(char *file);
-int				ft_readfile(int fd, int f(t_cube *, char *), t_cube *cube);
+int					parse_file(t_cube *cube, char *filename);
+int					ft_readfile(int fd, int f(t_cube *, char *), t_cube *cube);
 
 //* PARSE
 int					ft_parse(t_cube *cube, char *line);
@@ -102,17 +120,14 @@ int					ft_parse_texture(t_cube *cube, char *line);
 int					ft_parse_color(t_cube *cube, char *line);
 int					ft_parse_map(t_cube *cube);
 
-t_colors		colors_inited(t_map *map);
-t_directions	textures_inited(t_map *map);
+bool				materials_inited(t_map *map);
+t_colors			colors_inited(t_map *map);
+t_directions		textures_inited(t_map *map);
 
 //* MAP
-void			square_it(t_map *map);
-
-/** Colors	*/
-int				get_rgb(int r, int g, int b, int a);
+int					square_it(t_map *map);
 
 //* UTILS
-bool			is_valid_color(const int c);
 bool			is_only(const char *line, const char c);
 bool			is_blank(const char *line);
 bool			is_map(const char c);

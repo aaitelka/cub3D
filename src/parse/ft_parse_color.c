@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/18 20:16:02 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:31:30 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,30 @@
 static int	check_duplicate_color(char *color)
 {
 	if (color[0] == 'C')
-		return (ft_error(color, "ceiling already exists"));
+		return (ft_error(color, ECCAE));
 	else if (color[0] == 'F')
-		return (ft_error(color, "floor already exists"));
+		return (ft_error(color, ECFAE));
 	return (SUCCESS);
 }
 
-static int len(char *str)
+static bool	has_alien(char **colors)
 {
-	int			index;
-	int			size;
+	int				row;
+	int				col;
+	int				size;
 
 	size = 0;
-	index = -1;
-	while (str[++index])
+	row = -1;
+	while (colors[++row])
 	{
-			if (!is_space(str[index]) && str[index] != '\t' && str[index])
-					size++;
+		col = -1;
+		while (colors[row][++col])
+		{
+			if (!ft_isdigit(colors[row][col]) && !is_space(colors[row][col]))
+				return (true);
+		}
 	}
-	return (size);
+	return (false);
 }
 
 static int	get_color(char **colors)
@@ -46,14 +51,13 @@ static int	get_color(char **colors)
 	r = ft_atoi(colors[0]);
 	g = ft_atoi(colors[1]);
 	b = ft_atoi(colors[2]);
-	if (!is_valid_color(r))
-		return (ft_error(colors[0], "color has range [0, 255]"));
-	else if (!is_valid_color(g))
-		return (ft_error(colors[1], "color has range [0, 255]"));
-	else if (!is_valid_color(b))
-		return (ft_error(colors[2], "color has range [0, 255]"));
-	rgb = get_rgb(r, g, b, 0);
-	return (rgb);
+	if (!(r >= 0 && r <= UCHAR_MAX))
+		return (ft_error(colors[0], ECOOR));
+	else if (!(g >= 0 && g <= UCHAR_MAX))
+		return (ft_error(colors[1], ECOOR));
+	else if (!(b >= 0 && b <= UCHAR_MAX))
+		return (ft_error(colors[2], ECOOR));
+	return (r << 16 | g << 8 | b);
 }
 
 static bool	is_valid_rgb(char *color)
@@ -69,7 +73,7 @@ static bool	is_valid_rgb(char *color)
 	is_valid = true;
 	while (color[index])
 	{
-		if (ft_isdigit(color[index]) || (is_space(color[index])) || (color[index] == '\t'))
+		if (ft_isdigit(color[index]) || (is_space(color[index])))
 			;
 		else if (color[index] == ',')
 			comma++;
@@ -82,34 +86,29 @@ static bool	is_valid_rgb(char *color)
 	return (true);
 }
 
-/**
- * @brief Parse the color from the line
- * @param cube The game structure
- * @param line The line to parse
- */
 int	ft_parse_color(t_cube *cube, char *line)
 {
-	char			**clrs;
+	char			**colors;
 	char			*color;
 	size_t			size;
 	bool			valid;
+	int				shifted;
 
-	color = ft_strtrim(line + 1, " \t\n");
-	if (!color)
-		return (ft_error(line, "failed trim color"));
+	line[ft_strlen(line) - 1] = '\0';
+	color = line + 2;
 	valid = is_valid_rgb(color);
-	clrs = ft_split(color, ',');
-	size = ft_array_size(clrs);
-	if (!valid || !clrs || size != 3 || len(clrs[0]) > 3 || len(clrs[1]) > 3 || len(clrs[2]) > 3)
-	{
-		ft_clear_array(clrs, ft_array_size(clrs));
-		return (ft_error(color, "should be R,G,B format"));
-	}
-	if (!ft_strncmp(line, "F ", 2) && cube->map.colors[F]  == -1)
-		cube->map.colors[F] = get_color(clrs);
+	colors = ft_split(color, ',');
+	size = ft_array_size(colors);
+	if (!valid || !colors || size != 3 || has_alien(colors))
+		return (ft_clear_array(colors, size), ft_error(line, ECNRGB));
+	shifted = get_color(colors);
+	if (shifted == FAILED)
+		return (ft_clear_array(colors, size), FAILED);
+	if (!ft_strncmp(line, "F ", 2) && cube->map.colors[F] == -1)
+		cube->map.colors[F] = shifted;
 	else if (!ft_strncmp(line, "C ", 2) && cube->map.colors[C] == -1)
-		cube->map.colors[C] = get_color(clrs);
+		cube->map.colors[C] = shifted;
 	else if (check_duplicate_color(line) != SUCCESS)
-		return (ft_clear_array(clrs, 3), free(color), FAILED);
-	return (ft_clear_array(clrs, ft_array_size(clrs)), free(color), SUCCESS);
+		return (ft_clear_array(colors, size), FAILED);
+	return (ft_clear_array(colors, size), SUCCESS);
 }

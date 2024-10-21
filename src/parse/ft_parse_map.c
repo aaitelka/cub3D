@@ -6,73 +6,62 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 12:40:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/17 08:19:29 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:30:19 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 
-static void	check_valid_chars(t_point *point, const char *line)
+static inline bool	in_bounds(t_map *map, int row, int col)
+{
+	return (col == 0
+		|| col == map->longest - 1
+		|| row == 0
+		|| row == map->size - 1);
+}
+
+static inline bool	inside_space(t_map *map, int row, int col)
+{
+	return (is_space(map->_2d[row + 1][col])
+		|| is_space(map->_2d[row - 1][col])
+		|| is_space(map->_2d[row][col + 1])
+		|| is_space(map->_2d[row][col - 1]));
+}
+
+static int	has_alien(t_point *point, char *line)
 {
 	char			*alien;
-	int				index; 
+	int				index;
 	int				player;
 
 	alien = NULL;
-	index = 0;
+	index = -1;
 	player = 0;
-	while (line[index])
+	while (line[++index])
 	{
 		if (is_player(line[index]))
 			player++;
 		if (line[ft_strlen(line) - 1] == '\n')
-		{
-			ft_error("\\n", "map has new line");
-			return ;
-		}
+			return (ft_error("map", EMAPHNL));
 		if (!valid_char(line[index]))
 		{
-			alien = ft_substr(line, index, 1);
-			if (ft_strcmp(alien, "\t") == 0)
-			{
-				ft_error("\\t", "map contains tab");
-				return ;
-			}
-			ft_error(alien, "invalid character in map");
-			free(alien);
-			return ;
+			line[index + 1] = '\0';
+			alien = line + index;
+			return (ft_error(alien, EMAPHIC));
 		}
-		index++;
 	}
 	if (player == 0)
-		ft_error("player", "player not found");
-	else if (player > 1)
-		ft_error("player", "multiple players found");
+		return (ft_error("player", EPNTFND));
+	if (player > 1)
+		return (ft_error("player", EPMLFND));
+	return (SUCCESS);
 }
 
-bool	in_bounds(t_map *map, int row, int col)
-{
-	return (!col || col == map->longest - 1 || !row || row == map->size - 1);
-}
-
-bool	inside_space(t_map *map, int row, int col)
-{
-	return (is_space(map->_2d[row + 1][col])
-			||	is_space(map->_2d[row - 1][col])
-			||	is_space(map->_2d[row][col + 1])
-			||	is_space(map->_2d[row][col - 1]));
-}
-
-static void	check_map(t_map *map)
+static int	check_map(t_map *map)
 {
 	int				row;
 	int				col;
 
-	if (!map->_2d)
-	{
-		ft_error("map", "failed to split map");
-		return ;
-	}
 	row = -1;
 	while (map->_2d[++row])
 	{
@@ -84,26 +73,28 @@ static void	check_map(t_map *map)
 				if (in_bounds(map, row, col) || inside_space(map, row, col))
 				{
 					printf("error in row[%d] col[%d]\n", row, col);
-					break ;
+					return (FAILED);
 				}
 			}
 		}
 	}
+	return (SUCCESS);
 }
 
 int	ft_parse_map(t_cube *cube)
 {
 	if (!cube->map.content)
-		return ft_error("map", "no map found hh");
+		return (ft_error("map", EMAPNTF));
 	if (is_blank(cube->map.content))
-		return ft_error("map", "has only spaces");
+		return (ft_error("map", EMAPHOS));
 	if (cube->map.size < 3 || cube->map.longest < 3)
-		return ft_error(cube->map.content, "ma map ma ta l3ba hadi\n");
-	check_valid_chars(&cube->map.point, cube->map.content);
+		return (ft_error("map", EMAPN33));
+	if (has_alien(&cube->map.point, cube->map.content) != SUCCESS)
+		return (FAILED);
 	cube->map._2d = ft_split(cube->map.content, '\n');
 	if (cube->map._2d == NULL)
-		return ft_error("map", "failed to split map");
-	square_it(&cube->map);
-	check_map(&cube->map);
-	return 0;
+		return (ft_error("map", "failed to split map"));
+	if (square_it(&cube->map) != SUCCESS)
+		return (FAILED);
+	return (check_map(&cube->map));
 }
