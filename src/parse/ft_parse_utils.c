@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 08:55:15 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/22 19:54:49 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:21:08 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ inline bool	is_only(const char *line, const char c)
 
 long	ft_atol(const char *str)
 {
-	int		        sign;
-	long	        result;
+	int				sign;
+	long			result;
 
 	sign = 1;
 	result = 0;
@@ -72,5 +72,7 @@ long	ft_atol(const char *str)
 		if (result > INT_MAX || result < INT_MIN)
 			return (LONG_MAX);
 	}
+	if (!is_blank(str))
+		return (-1);
 	return (result * sign);
 }

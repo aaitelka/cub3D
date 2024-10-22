@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/22 20:17:54 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 22:30:18 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	get_color(char **colors)
 	r = ft_atol(colors[0]);
 	g = ft_atol(colors[1]);
 	b = ft_atol(colors[2]);
-	printf("col %d\n", r);
 	if (!(r >= 0 && r <= UCHAR_MAX))
 		return (ft_error(colors[0], ECOOR));
 	else if (!(g >= 0 && g <= UCHAR_MAX))
