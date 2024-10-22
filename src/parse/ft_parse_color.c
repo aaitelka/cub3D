@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 13:24:57 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/21 21:31:30 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:55:17 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ static bool	has_alien(char **colors)
 {
 	int				row;
 	int				col;
-	int				size;
 
-	size = 0;
 	row = -1;
 	while (colors[++row])
 	{
@@ -48,9 +46,9 @@ static int	get_color(char **colors)
 	int				g;
 	int				b;
 
-	r = ft_atoi(colors[0]);
-	g = ft_atoi(colors[1]);
-	b = ft_atoi(colors[2]);
+	r = ft_atol(colors[0]);
+	g = ft_atol(colors[1]);
+	b = ft_atol(colors[2]);
 	if (!(r >= 0 && r <= UCHAR_MAX))
 		return (ft_error(colors[0], ECOOR));
 	else if (!(g >= 0 && g <= UCHAR_MAX))

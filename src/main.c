@@ -6,7 +6,7 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:35:55 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/21 21:25:46 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:17:52 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static inline bool	is_valid_ext(char *path)
 	return (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4) == 0);
 }
 
-// void leak(){system("leaks cub3D");}
-// atexit(leak);
+void leak(){system("leaks cub3D");}
 int	main(int argc, char **argv)
 {
+atexit(leak);
 	if (argc == 2 && is_valid_ext(argv[argc - 1]))
 		start_game(argv[argc - 1]);
 	else

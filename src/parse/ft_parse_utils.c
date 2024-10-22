@@ -6,16 +6,11 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 08:55:15 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/21 18:34:53 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:54:49 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
-
-inline bool	is_null(const char c)
-{
-	return (c == '\0');
-}
 
 inline bool	is_space(const char c)
 {
@@ -53,4 +48,29 @@ inline bool	is_only(const char *line, const char c)
 			return (false);
 	}
 	return (true);
+}
+
+long	ft_atol(const char *str)
+{
+	int		        sign;
+	long	        result;
+
+	sign = 1;
+	result = 0;
+	while (*str == 32)
+		str++;
+	if (*str == '-' && *str++)
+		sign = -1;
+	else if (*str == '+')
+		str++;
+	if (!ft_isdigit(*str) || !*str)
+		return (LONG_MAX);
+	while (ft_isdigit(*str))
+	{
+		result *= 10;
+		result += (*str++ - '0');
+		if (result > INT_MAX || result < INT_MIN)
+			return (LONG_MAX);
+	}
+	return (result * sign);
 }

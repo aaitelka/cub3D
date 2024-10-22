@@ -6,22 +6,23 @@
 /*   By: aaitelka <aaitelka@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 22:28:11 by aaitelka          #+#    #+#             */
-/*   Updated: 2024/10/21 21:19:18 by aaitelka         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:54:01 by aaitelka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef cub3d_H
 # define cub3d_H
 
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <limits.h>
+# include <string.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <errno.h>
 # include <libft.h>
 # include <MLX42.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <string.h>
-# include <errno.h>
 
 
 # define EMFEMPTY "File is empty"
@@ -148,8 +149,9 @@ bool			is_color(const char *line);
 bool			is_texture(const char *line);
 
 //* ARRAY UTILS
-size_t			ft_array_size(char **array);
-void			ft_clear_array(char **array, int size);
+size_t				ft_array_size(char **array);
+void				ft_clear_array(char **array, int size);
+long				ft_atol(const char *str);
 
 //* CLEAN
 void			ft_destroy(t_cube *cube);
